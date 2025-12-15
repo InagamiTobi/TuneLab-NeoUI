@@ -1,22 +1,14 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Controls.Documents;
 using Avalonia.Input;
-using Avalonia.Layout;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TuneLab.Base.Event;
+using TuneLab.Base.Science;
+using TuneLab.Data;
+using TuneLab.GUI;
 using TuneLab.GUI.Components;
 using TuneLab.GUI.Input;
-using TuneLab.Data;
-using TuneLab.Base.Science;
-using TuneLab.GUI;
-using TuneLab.Utils;
-using TuneLab.Extensions.Formats.DataInfo;
 using TuneLab.I18N;
+using TuneLab.Utils;
 
 namespace TuneLab.UI;
 
@@ -62,9 +54,9 @@ internal class TrackWindow : DockPanel, TimelineView.IDependency, TrackScrollVie
             }
             headArea.AddDock(title, Dock.Top);
             headArea.AddDock(new Border() { Height = 1, Background = Style.BACK.ToBrush() }, Dock.Top);
-            headArea.AddDock(mTrackHeadList);
+            headArea.AddDock(mTrackHeadList, Dock.Left);
         }
-        this.AddDock(headArea, Dock.Right);
+        this.AddDock(headArea, Dock.Left);
 
         var layerPanel = new LayerPanel();
         {
@@ -133,7 +125,7 @@ internal class TrackWindow : DockPanel, TimelineView.IDependency, TrackScrollVie
                     e.Handled = false;
                 }
                 break;
-        } 
+        }
     }
 
     readonly Quantization mQuantization;

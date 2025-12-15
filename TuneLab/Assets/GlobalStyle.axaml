@@ -10,13 +10,13 @@
 	</Style>
 
 	<Style Selector="ComboBox:dropdownopen /template/ Border#PopupBorder">
-		<Setter Property="Background" Value="#1B1B24" />
-		<Setter Property="BorderBrush" Value="#1B1B24" />
+		<Setter Property="Background" Value="#646464" />
+		<Setter Property="BorderBrush" Value="#646464" />
 		<Setter Property="TextBlock.Foreground" Value="White" />
 	</Style>
 
 	<Style Selector="ComboBoxItem:selected /template/ ContentPresenter">
-		<Setter Property="Background" Value="#6060C0"/>
+		<Setter Property="Background" Value="#C4769A"/>
 	</Style>
 
 	<Style Selector="ToolTip">

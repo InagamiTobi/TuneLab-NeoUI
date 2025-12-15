@@ -1,16 +1,6 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Layout;
-using Avalonia.Media;
-using Avalonia.Input;
+﻿using Avalonia.Media;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TuneLab.GUI;
 using TuneLab.GUI.Components;
-using TuneLab.GUI.Input;
 using TuneLab.Utils;
 
 namespace TuneLab.UI;
@@ -26,6 +16,6 @@ internal class ParameterTitleBar : MovableComponent
 
     public override void Render(DrawingContext context)
     {
-        context.FillRectangle(new Color(255, 51, 51, 64).ToBrush(), this.Rect());
+        context.FillRectangle(new Color(255, 169, 196, 118).ToBrush(), this.Rect());
     }
 }

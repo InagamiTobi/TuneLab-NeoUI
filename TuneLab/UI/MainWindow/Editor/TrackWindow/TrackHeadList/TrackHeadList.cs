@@ -2,19 +2,15 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Threading;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TuneLab.Base.Event;
+using TuneLab.Base.Utils;
+using TuneLab.Data;
 using TuneLab.GUI;
 using TuneLab.GUI.Components;
 using TuneLab.GUI.Input;
-using TuneLab.Data;
-using TuneLab.Base.Utils;
 using TuneLab.Utils;
-using Avalonia.Threading;
 
 namespace TuneLab.UI;
 
@@ -69,7 +65,7 @@ internal class TrackHeadList : LayerPanel
             mTrackHeadList = trackHeadList;
 
             mAddTrackButton = new(mTrackHeadList);
-            
+
 
             ClipToBounds = true;
             Children.Add(mAddTrackButton);

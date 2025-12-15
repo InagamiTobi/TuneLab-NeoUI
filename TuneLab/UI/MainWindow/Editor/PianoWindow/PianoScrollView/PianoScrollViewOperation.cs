@@ -1,22 +1,22 @@
-﻿using DynamicData;
+﻿using Avalonia.Input;
+using DynamicData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TuneLab.Base.Data;
+using TuneLab.Base.Science;
 using TuneLab.Base.Structures;
-using TuneLab.GUI.Input;
+using TuneLab.Base.Utils;
+using TuneLab.Configs;
 using TuneLab.Data;
 using TuneLab.Extensions.Formats.DataInfo;
-using Rect = Avalonia.Rect;
+using TuneLab.Extensions.Voices;
+using TuneLab.GUI.Input;
+using TuneLab.I18N;
+using TuneLab.Utils;
 using ContextMenu = Avalonia.Controls.ContextMenu;
 using MenuItem = Avalonia.Controls.MenuItem;
-using Avalonia.Input;
-using TuneLab.Extensions.Voices;
-using TuneLab.Utils;
-using TuneLab.Base.Science;
-using TuneLab.Base.Utils;
-using TuneLab.I18N;
-using TuneLab.Configs;
+using Rect = Avalonia.Rect;
 
 namespace TuneLab.UI;
 
@@ -101,7 +101,7 @@ internal partial class PianoScrollView
                                     if (Part == null)
                                         break;
 
-                                    if (DetectWaveformPrimaryButton()) {}
+                                    if (DetectWaveformPrimaryButton()) { }
                                     else if (item is NoteItem noteItem)
                                     {
                                         var note = noteItem.Note;
@@ -1250,7 +1250,7 @@ internal partial class PianoScrollView
             return new Rect(left, top, right - left, bottom - top);
         }
 
-        protected abstract State SelectState { get; } 
+        protected abstract State SelectState { get; }
         protected abstract IEnumerable<T>? Collection { get; }
         protected abstract void Select(IEnumerable<T> items, double minTick, double maxTick, double minPitch, double maxPitch);
         protected virtual void BeginSelect() { }
@@ -2730,9 +2730,9 @@ internal partial class PianoScrollView
                 {
                     PianoScrollView.Part.RemoveNote(mLeft);
                 }
-                else 
-                { 
-                    mLeft.Dur.Set(pos - mLeft.Pos.Value); 
+                else
+                {
+                    mLeft.Dur.Set(pos - mLeft.Pos.Value);
                 }
 
             }

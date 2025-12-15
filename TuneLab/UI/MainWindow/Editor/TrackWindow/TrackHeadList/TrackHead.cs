@@ -1,22 +1,18 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using TuneLab.Audio;
 using TuneLab.Base.Event;
+using TuneLab.Base.Properties;
+using TuneLab.Base.Science;
+using TuneLab.Base.Utils;
+using TuneLab.Data;
 using TuneLab.GUI;
 using TuneLab.GUI.Components;
-using TuneLab.Data;
-using TuneLab.Base.Utils;
-using TuneLab.Utils;
-using TuneLab.Base.Science;
-using TuneLab.Base.Properties;
-using Avalonia.Controls.Primitives;
-using Slider = TuneLab.GUI.Components.Slider;
 using TuneLab.I18N;
+using TuneLab.Utils;
 
 namespace TuneLab.UI;
 
@@ -30,11 +26,11 @@ internal class TrackHead : DockPanel
         mPanSlider.SetRange(-1, 1);
         mPanSlider.Bind(mTrackProvider.Select(track => track.Pan), s);
         mMuteToggle
-            .AddContent(new() { Item = new BorderItem() { CornerRadius = 3 }, CheckedColorSet = new() { Color = new(255, 0, 186, 173) }, UncheckedColorSet = new() { Color = Style.BACK } })
+            .AddContent(new() { Item = new BorderItem() { CornerRadius = 3 }, CheckedColorSet = new() { Color = new(255, 196, 118, 118) }, UncheckedColorSet = new() { Color = Style.BACK } })
             .AddContent(new() { Item = new IconItem() { Icon = Assets.M }, CheckedColorSet = new() { Color = Colors.White }, UncheckedColorSet = new() { Color = Style.LIGHT_WHITE } });
         mMuteToggle.Bind(mTrackProvider.Select(track => track.IsMute), s);
         mSoloToggle
-            .AddContent(new() { Item = new BorderItem() { CornerRadius = 3 }, CheckedColorSet = new() { Color = new(255, 135, 84, 255) }, UncheckedColorSet = new() { Color = Style.BACK } })
+            .AddContent(new() { Item = new BorderItem() { CornerRadius = 3 }, CheckedColorSet = new() { Color = new(255, 118, 196, 121) }, UncheckedColorSet = new() { Color = Style.BACK } })
             .AddContent(new() { Item = new IconItem() { Icon = Assets.S }, CheckedColorSet = new() { Color = Colors.White }, UncheckedColorSet = new() { Color = Style.LIGHT_WHITE } });
         mSoloToggle.Bind(mTrackProvider.Select(track => track.IsSolo), s);
         mIndexLabel.EndInput.Subscribe(() => { if (Track == null) return; if (!int.TryParse(mIndexLabel.Text, out int newIndex)) mIndexLabel.Text = mTrackIndex.ToString(); newIndex = newIndex.Limit(1, Track.Project.Tracks.Count()); newIndex--; MoveToIndex(newIndex); });
@@ -42,13 +38,13 @@ internal class TrackHead : DockPanel
         {
             leftArea.AddDock(mAmplitudeViewer);
         }
-        this.AddDock(leftArea, Dock.Left);
+        this.AddDock(leftArea, Dock.Right);
         var rightArea = new DockPanel() { Margin = new(0, 0, 0, 0) };
         {
             mIndexPanel.Children.Add(mIndexLabel);
             rightArea.AddDock(mIndexPanel);
         }
-        this.AddDock(rightArea, Dock.Right);
+        this.AddDock(rightArea, Dock.Left);
         var topArea = new DockPanel() { Margin = new(12, 12, 12, 0) };
         {
             topArea.AddDock(mSoloToggle, Dock.Right);
@@ -247,7 +243,7 @@ internal class TrackHead : DockPanel
         Background = Brushes.Transparent;
 
         this.RegisterOnTrackColorUpdated();
-        
+
     }
 
     ~TrackHead()
@@ -270,7 +266,7 @@ internal class TrackHead : DockPanel
         }
     }
 
-    public void SetTrack(ITrack? track, int index=0)
+    public void SetTrack(ITrack? track, int index = 0)
     {
         mTrackIndex = index;
 
@@ -318,7 +314,7 @@ internal class TrackHead : DockPanel
     int mTrackIndex = -1;
 
     readonly LayerPanel mIndexPanel = new() { Background = Style.ITEM.ToBrush(), Width = 24, Margin = new(0, 0, 0, 1) };
-    readonly EditableLabel mIndexLabel = new() { MinWidth = 16, Foreground = Brushes.Black, CornerRadius = new(0), Padding = new(0), FontSize = 12, VerticalAlignment =Avalonia.Layout.VerticalAlignment.Center,HorizontalAlignment=Avalonia.Layout.HorizontalAlignment.Center, HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center };
+    readonly EditableLabel mIndexLabel = new() { MinWidth = 16, Foreground = Brushes.Black, CornerRadius = new(0), Padding = new(0), FontSize = 12, VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center, HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center };
     readonly EditableLabel mName = new() { FontSize = 12, CornerRadius = new(0), Padding = new(0), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center, Foreground = Style.LIGHT_WHITE.ToBrush(), Background = Style.INTERFACE.ToBrush(), InputBackground = Style.BACK.ToBrush(), Height = 16 };
     readonly GainSlider mGainSlider = new() { Height = 12 };
     readonly PanSlider mPanSlider = new() { Width = 40, Height = 12, Margin = new(8, 0, 0, 0) };

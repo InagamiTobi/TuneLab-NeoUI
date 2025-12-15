@@ -1,17 +1,12 @@
 ﻿using Avalonia;
-using DynamicData;
+using Avalonia.Media;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TuneLab.GUI.Components;
-using TuneLab.Data;
-using TuneLab.Utils;
-using TuneLab.Extensions.Voices;
 using TuneLab.Base.Utils;
-using Avalonia.Media;
+using TuneLab.Data;
+using TuneLab.Extensions.Voices;
 using TuneLab.GUI.Input;
+using TuneLab.Utils;
 
 namespace TuneLab.UI;
 

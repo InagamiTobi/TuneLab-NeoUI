@@ -18,7 +18,7 @@
 		
 	<DockPanel Margin="{Binding $parent[Window].OffScreenMargin}">
 		<!-- Custom title bar -->
-		<Grid DockPanel.Dock="Top" Height="40" x:Name="CustomTitleBar">
+		<Grid DockPanel.Dock="Top" Height="30" x:Name="CustomTitleBar">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*"/>
 				<ColumnDefinition Width="Auto" />

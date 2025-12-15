@@ -1,19 +1,14 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TuneLab.Base.Event;
-using TuneLab.GUI.Input;
-using TuneLab.Data;
 using TuneLab.Base.Science;
-using TuneLab.Utils;
-using TuneLab.Extensions.Formats.DataInfo;
-using TuneLab.Extensions.Voices;
+using TuneLab.Data;
 using TuneLab.GUI.Components;
-using TuneLab.Base.Utils;
+using TuneLab.GUI.Input;
+using TuneLab.Utils;
 
 namespace TuneLab.UI;
 
@@ -243,7 +238,7 @@ internal class PianoWindow : DockPanel, PianoRoll.IDependency, PianoScrollView.I
 
     const double TIME_AXIS_HEIGHT = 48;
     const double ROLL_WIDTH = 64;
-    const double PARAMETER_TITLE_BAR_HEIGHT = 20;
+    const double PARAMETER_TITLE_BAR_HEIGHT = 15;
 
     double mParameterHeight = 200;
 

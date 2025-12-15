@@ -1,30 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
+﻿using Avalonia;
 using Avalonia.Input;
 using Avalonia.Media;
-using DynamicData;
+using Avalonia.Media.Imaging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using TuneLab.Audio;
 using TuneLab.Base.Event;
-using TuneLab.GUI;
-using TuneLab.GUI.Components;
-using TuneLab.GUI.Input;
+using TuneLab.Base.Science;
+using TuneLab.Base.Utils;
+using TuneLab.Configs;
 using TuneLab.Data;
 using TuneLab.Extensions.Formats.DataInfo;
 using TuneLab.Extensions.Voices;
-using TuneLab.Utils;
-using TuneLab.Base.Science;
-using TuneLab.Base.Utils;
+using TuneLab.GUI;
+using TuneLab.GUI.Components;
+using TuneLab.GUI.Input;
 using TuneLab.I18N;
-using Avalonia.Media.Imaging;
-using TuneLab.Configs;
-using System.IO;
+using TuneLab.Utils;
 
 namespace TuneLab.UI;
 
@@ -43,11 +37,11 @@ internal partial class PianoScrollView : View, IPianoScrollView
         IActionEvent WaveformBottomChanged { get; }
     }
 
-    public bool CanPaste => mDependency.PianoTool.Value switch 
-    { 
-        PianoTool.Note => !mNoteClipboard.IsEmpty(), 
+    public bool CanPaste => mDependency.PianoTool.Value switch
+    {
+        PianoTool.Note => !mNoteClipboard.IsEmpty(),
         PianoTool.Vibrato => !mVibratoClipboard.IsEmpty(),
-        _ => false 
+        _ => false
     };
     public State OperationState => mState;
 
@@ -60,7 +54,7 @@ internal partial class PianoScrollView : View, IPianoScrollView
         mPitchDrawOperation = new(this);
         mPitchClearOperation = new(this);
         mPitchLockOperation = new(this);
-        mNoteMoveOperation = new(this); 
+        mNoteMoveOperation = new(this);
         mNoteStartResizeOperation = new(this);
         mNoteEndResizeOperation = new(this);
         mVibratoSelectOperation = new(this);
@@ -84,7 +78,7 @@ internal partial class PianoScrollView : View, IPianoScrollView
         mDependency.PartProvider.When(p => p.SynthesisStatusChanged).Subscribe(OnSynthesisStatusChanged, s);
         mDependency.PartProvider.When(p => p.Notes.SelectionChanged).Subscribe(InvalidateVisual, s);
         mDependency.PartProvider.When(p => p.Vibratos.Any(vibrato => vibrato.SelectionChanged)).Subscribe(InvalidateVisual, s);
-        mDependency.PartProvider.When(p => p.Pitch.Modified).Subscribe(InvalidateVisual, s); 
+        mDependency.PartProvider.When(p => p.Pitch.Modified).Subscribe(InvalidateVisual, s);
         mDependency.PartProvider.When(p => p.Track.Project.Tracks.Any(track => track.AsRefer.Modified)).Subscribe(InvalidateVisual, s);
         mDependency.PartProvider.When(p => p.Track.Project.Tracks.Any(track => track.Color.Modified)).Subscribe(InvalidateVisual, s);
         mDependency.PartProvider.When(p => p.TempoManager.Modified).Subscribe(InvalidateVisual, s);
@@ -254,7 +248,7 @@ internal partial class PianoScrollView : View, IPianoScrollView
                 }
             }
         }
-        
+
         // draw background
         if (mBackgroundImage != null)
         {
@@ -277,7 +271,7 @@ internal partial class PianoScrollView : View, IPianoScrollView
                     if (part.EndPos() < minVisibleTick) continue;
                     if (part.StartPos() > maxVisibleTick) continue;
                     if (!(part is MidiPart midiPart)) continue;
-                    foreach(var note in midiPart.Notes)
+                    foreach (var note in midiPart.Notes)
                     {
                         if (note.GlobalEndPos() < minVisibleTick)
                             continue;
@@ -290,7 +284,7 @@ internal partial class PianoScrollView : View, IPianoScrollView
                     }
                 }
             }
-        
+
         // draw note
         double round = 4;
         IBrush noteBrush = Style.ITEM.ToBrush();
@@ -329,10 +323,10 @@ internal partial class PianoScrollView : View, IPianoScrollView
         {
             IBrush brush = piece.SynthesisStatus switch
             {
-                SynthesisStatus.NotSynthesized => Colors.Gray.Opacity(0.5).ToBrush(),
-                SynthesisStatus.SynthesisFailed => Colors.Red.Opacity(0.5).ToBrush(),
-                SynthesisStatus.SynthesisSucceeded => Colors.Green.Opacity(0.5).ToBrush(),
-                SynthesisStatus.Synthesizing => Colors.Orange.Opacity(0.5).ToBrush(),
+                SynthesisStatus.NotSynthesized => Colors.Gray.Opacity(0.25).ToBrush(),
+                SynthesisStatus.SynthesisFailed => Colors.Red.Opacity(0.25).ToBrush(),
+                SynthesisStatus.SynthesisSucceeded => Colors.LawnGreen.Opacity(0.25).ToBrush(),
+                SynthesisStatus.Synthesizing => Colors.Orange.Opacity(0.25).ToBrush(),
                 _ => throw new UnreachableException(),
             };
             double left = TickAxis.Tick2X(tempoManager.GetTick(piece.StartTime()));
@@ -340,7 +334,7 @@ internal partial class PianoScrollView : View, IPianoScrollView
             if (piece.SynthesisStatus == SynthesisStatus.Synthesizing)
             {
                 double center = MathUtility.LineValue(0, left, 1, right, piece.SynthesisProgress);
-                context.DrawRectangle(Colors.Green.Opacity(0.5).ToBrush(), null, new RoundedRect(new(left, 12, center - left, 8), 2, 0, 0, 2));
+                context.DrawRectangle(Colors.LawnGreen.Opacity(0.5).ToBrush(), null, new RoundedRect(new(left, 12, center - left, 8), 2, 0, 0, 2));
                 context.DrawRectangle(Colors.Orange.Opacity(0.5).ToBrush(), null, new RoundedRect(new(center, 12, right - center, 8), 0, 2, 2, 0));
             }
             else if (piece.SynthesisStatus == SynthesisStatus.SynthesisFailed && !string.IsNullOrEmpty(piece.LastError))
@@ -584,10 +578,10 @@ internal partial class PianoScrollView : View, IPianoScrollView
             var attackPosition = hoverVibratoItem.AttackPosition();
             if (!double.IsNaN(attackPosition.Y))
             {
-                context.DrawGeometry(arBrush, null, new PolylineGeometry([ 
-                    attackPosition + new Point(-4, 0), 
-                    attackPosition + new Point(0, -12), 
-                    attackPosition + new Point(0, 12), 
+                context.DrawGeometry(arBrush, null, new PolylineGeometry([
+                    attackPosition + new Point(-4, 0),
+                    attackPosition + new Point(0, -12),
+                    attackPosition + new Point(0, 12),
                 ], true));
             }
 
@@ -609,7 +603,7 @@ internal partial class PianoScrollView : View, IPianoScrollView
             return;
 
         double height = WAVEFORM_HEIGHT;
-        context.FillRectangle(Colors.Black.Opacity(0.5).ToBrush(), new(0, WaveformTop, Bounds.Width, WAVEFORM_HEIGHT));
+        context.FillRectangle(Colors.DimGray.Opacity(0.5).ToBrush(), new(0, WaveformTop, Bounds.Width, WAVEFORM_HEIGHT));
         var tempoManager = Part.TempoManager;
         var viewStartTime = tempoManager.GetTime(TickAxis.X2Tick(0));
         var viewEndTime = tempoManager.GetTime(TickAxis.X2Tick(Bounds.Width));
@@ -1080,7 +1074,7 @@ internal partial class PianoScrollView : View, IPianoScrollView
     const double MIN_GRID_GAP = 12;
     const double MIN_REALITY_GRID_GAP = MIN_GRID_GAP * 2;
     const double LineWidth = 1;
-    const double WAVEFORM_HEIGHT = 64;
+    const double WAVEFORM_HEIGHT = 32;
 
     double WaveformTop => mDependency.WaveformBottom - WAVEFORM_HEIGHT;
     double WaveformBottom => mDependency.WaveformBottom;

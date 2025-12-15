@@ -2,18 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TuneLab.Animation;
 using TuneLab.Base.Data;
-using TuneLab.Base.Structures;
-using TuneLab.GUI.Input;
-using TuneLab.Data;
 using TuneLab.Base.Science;
-using TuneLab.Utils;
-using TuneLab.Extensions.Voices;
+using TuneLab.Base.Structures;
 using TuneLab.Base.Utils;
 using TuneLab.Configs;
+using TuneLab.Data;
+using TuneLab.GUI.Input;
 
 namespace TuneLab.UI;
 
@@ -82,7 +77,7 @@ internal partial class AutomationRenderer
                         default:
                             break;
                     }
-                }             
+                }
                 break;
             default:
                 break;
